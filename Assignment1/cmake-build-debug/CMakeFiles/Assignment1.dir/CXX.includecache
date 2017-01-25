@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/awmarkley/Library/Mobile Documents/com~apple~CloudDocs/Class/CS432 - Parallel Computing/Assignment1/main.cpp
+iostream
+-
+vector
+-
+sys/time.h
+-
+zconf.h
+-
+
