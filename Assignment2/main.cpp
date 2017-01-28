@@ -9,6 +9,7 @@ Homework #: 2
 #include <vector>
 #include <sys/time.h>
 #include <zconf.h>
+#include <fstream>
 
 using namespace std;
 
@@ -160,9 +161,9 @@ int main( int numargs, char *args[]) {
 
 
     for ( int i = 0; i < rounds; i++ ) {
-
-        if ( i % 100 == 0 )
-            cout << i << endl;
+//
+//        if ( i % 100 == 0 )
+//            cout << i << endl;
 
         life.nextTurn();
 
@@ -171,7 +172,13 @@ int main( int numargs, char *args[]) {
     }
 
     endtime = gettime();
-    cout << endtime - starttime;
+
+    ofstream output;
+    output.open( "output.log", ios::out | ios::app );
+
+    output << size << " x " << size << " for " << rounds << " rounds took " << endtime - starttime << " seconds" << endl;
+
+    output.close();
 
     return 0;
 }
