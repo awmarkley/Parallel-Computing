@@ -48,10 +48,10 @@ RM = /Applications/CLion.app/Contents/bin/cmake/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "/Users/tahlvain/Library/Mobile Documents/com~apple~CloudDocs/Class/CS432 - Parallel Computing/Git/Assignment1"
+CMAKE_SOURCE_DIR = "/Users/awmarkley/Library/Mobile Documents/com~apple~CloudDocs/Class/CS432 - Parallel Computing/Git/Assignment2"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "/Users/tahlvain/Library/Mobile Documents/com~apple~CloudDocs/Class/CS432 - Parallel Computing/Git/Assignment1/cmake-build-debug"
+CMAKE_BINARY_DIR = "/Users/awmarkley/Library/Mobile Documents/com~apple~CloudDocs/Class/CS432 - Parallel Computing/Git/Assignment2/cmake-build-debug"
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/tahlvain/Library/Mobile Documents/com~apple~CloudDocs/Class/CS432 - Parallel Computing/Git/Assignment1/cmake-build-debug/CMakeFiles" "/Users/tahlvain/Library/Mobile Documents/com~apple~CloudDocs/Class/CS432 - Parallel Computing/Git/Assignment1/cmake-build-debug/CMakeFiles/progress.marks"
+	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/awmarkley/Library/Mobile Documents/com~apple~CloudDocs/Class/CS432 - Parallel Computing/Git/Assignment2/cmake-build-debug/CMakeFiles" "/Users/awmarkley/Library/Mobile Documents/com~apple~CloudDocs/Class/CS432 - Parallel Computing/Git/Assignment2/cmake-build-debug/CMakeFiles/progress.marks"
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/tahlvain/Library/Mobile Documents/com~apple~CloudDocs/Class/CS432 - Parallel Computing/Git/Assignment1/cmake-build-debug/CMakeFiles" 0
+	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/awmarkley/Library/Mobile Documents/com~apple~CloudDocs/Class/CS432 - Parallel Computing/Git/Assignment2/cmake-build-debug/CMakeFiles" 0
 .PHONY : all
 
 # The main clean target
@@ -111,17 +111,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named Assignment1
+# Target rules for targets named Assignment2
 
 # Build rule for target.
-Assignment1: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 Assignment1
-.PHONY : Assignment1
+Assignment2: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 Assignment2
+.PHONY : Assignment2
 
 # fast build rule for target.
-Assignment1/fast:
-	$(MAKE) -f CMakeFiles/Assignment1.dir/build.make CMakeFiles/Assignment1.dir/build
-.PHONY : Assignment1/fast
+Assignment2/fast:
+	$(MAKE) -f CMakeFiles/Assignment2.dir/build.make CMakeFiles/Assignment2.dir/build
+.PHONY : Assignment2/fast
 
 main.o: main.cpp.o
 
@@ -129,7 +129,7 @@ main.o: main.cpp.o
 
 # target to build an object file
 main.cpp.o:
-	$(MAKE) -f CMakeFiles/Assignment1.dir/build.make CMakeFiles/Assignment1.dir/main.cpp.o
+	$(MAKE) -f CMakeFiles/Assignment2.dir/build.make CMakeFiles/Assignment2.dir/main.cpp.o
 .PHONY : main.cpp.o
 
 main.i: main.cpp.i
@@ -138,7 +138,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	$(MAKE) -f CMakeFiles/Assignment1.dir/build.make CMakeFiles/Assignment1.dir/main.cpp.i
+	$(MAKE) -f CMakeFiles/Assignment2.dir/build.make CMakeFiles/Assignment2.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -147,7 +147,7 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	$(MAKE) -f CMakeFiles/Assignment1.dir/build.make CMakeFiles/Assignment1.dir/main.cpp.s
+	$(MAKE) -f CMakeFiles/Assignment2.dir/build.make CMakeFiles/Assignment2.dir/main.cpp.s
 .PHONY : main.cpp.s
 
 # Help Target
@@ -158,7 +158,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... Assignment1"
+	@echo "... Assignment2"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
