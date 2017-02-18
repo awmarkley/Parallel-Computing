@@ -2,7 +2,7 @@
 Name: Andrew W Markley
 BlazerId: amarkley
 Course Section: CS 432
-Homework #: 2
+Homework #: 3
 */
 
 #include <iostream>
@@ -93,6 +93,8 @@ public:
         int start = threadID * chunkSize;
         int end = (threadID + 1) * chunkSize;
         
+        if ( N % maxThreads > threadID ) end++;
+
         for ( int i = start; i < end; i++) {
             for ( int j = 0; j < N; j++) {
                 int count = 0;
@@ -266,5 +268,7 @@ int main( int numargs, char *args[]) {
 
     output.close();
 
+    cout << threadCount << " threads: " << size << " x " << size << " for " << rounds << " rounds took " << endtime - starttime << " seconds" << endl;
+    
     return 0;
 }
