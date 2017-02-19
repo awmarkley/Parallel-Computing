@@ -3,6 +3,9 @@ Name: Andrew W Markley
 BlazerId: amarkley
 Course Section: CS 432
 Homework #: 3
+ 
+ Compile with:
+ icc -std=c++1y -O3 main.cpp [Board Size] [# of Rounds] [# of Threads]
 */
 
 #include <iostream>
