@@ -5,7 +5,10 @@ Course Section: CS 432
 Homework #: 3
  
  Compile with:
- icc -std=c++1y -O3 main.cpp [Board Size] [# of Rounds] [# of Threads]
+ icc -std=c++1y -O3 -pthread main.cpp
+ 
+ Run with:
+ ./a.out [Board Size] [# of Rounds] [# of Threads]
 */
 
 #include <iostream>
@@ -26,7 +29,7 @@ public:
     static void *threadMethod(void *arg);
     GameOfLife* getGame() const;
     int getThread() const;
-    void kill();
+    void join();
 private:
     pthread_t mThreadId;
     int mArgument;
@@ -166,7 +169,7 @@ public:
             
             //Wait for each thread to complete before continuing
             for (int thread = 0; thread < maxThreads; thread++) {
-                threadList[thread].kill();
+                threadList[thread].join();
             }
         }
         else {
@@ -227,7 +230,7 @@ int MyThread::getThread() const {
     return mArgument;
 }
     
-void MyThread::kill() {
+void MyThread::join() {
     pthread_join(mThreadId, NULL);
 }
 
