@@ -184,9 +184,9 @@ int main( int numargs, char *args[]) {
     ofstream output;
     output.open( "output.log", ios::out | ios::app );
 
-    cout << size << " x " << size << " for " << rounds << " rounds took " << endtime - starttime << " seconds" << endl;
+    cout << threads << " threads: " << size << " x " << size << " for " << rounds << " rounds took " << endtime - starttime << " seconds" << endl;
 
-    output << size << " x " << size << " for " << rounds << " rounds took " << endtime - starttime << " seconds" << endl;
+    output << threads << " threads: " << size << " x " << size << " for " << rounds << " rounds took " << endtime - starttime << " seconds" << endl;
 
     output.close();
 
