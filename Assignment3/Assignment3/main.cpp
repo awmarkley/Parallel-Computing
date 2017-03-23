@@ -67,7 +67,7 @@ public:
         currentBoard.resize(N, vector<bool>(N,0));
         nextBoard.resize(N, vector<bool>(N,0));
 
-        srand48(time(0));
+        srand48(1);
 
         for ( int i = 0; i < N; i++){
             for (int j = 0; j < N; j++){
@@ -78,11 +78,12 @@ public:
 
     //Prints a filled square for every cell that is marked "alive" in the current turn.
     void printBoard() {
-        cout << string(20, '\n');
+        cout << string(N * 3, '_');
+        cout << endl;
 
         for ( int i = 0; i < N; i++){
             for (int j = 0; j < N; j++){
-                string s = "   ";
+                string s = " . ";
 
                 if ( currentBoard[i][j] )
                     s = " ■ ";
@@ -99,8 +100,15 @@ public:
         int start = threadID * chunkSize;
         int end = (threadID + 1) * chunkSize;
         
-        if ( N % maxThreads > threadID ) end++;
-
+        if ( N % maxThreads > threadID ) {
+            start += threadID;
+            end += threadID + 1;
+        }
+        else if ( N % maxThreads != 0 ) {
+            start += threadID;
+            end += threadID;
+        }
+        
         for ( int i = start; i < end; i++) {
             for ( int j = 0; j < N; j++) {
                 int count = 0;
@@ -214,7 +222,7 @@ void MyThread::start() {
 void MyThread::doThings(GameOfLife* x, int threadNum) {
     x->nextTurn(threadNum);
 }
-    
+
 void *MyThread::threadMethod(void *arg) {
     MyThread *_this=static_cast<MyThread *>(arg);
     _this->doThings(_this->getGame(), _this->getThread());
@@ -249,7 +257,7 @@ int main( int numargs, char *args[]) {
 
     starttime = gettime();
 
-//    life.printBoard();
+    life.printBoard();
 
 
     for ( int i = 0; i < rounds; i++ ) {
@@ -259,7 +267,7 @@ int main( int numargs, char *args[]) {
 
         life.nextTurn();
 
-//      life.printBoard();
+      life.printBoard();
 //      sleep(1);
     }
 

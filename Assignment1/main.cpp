@@ -38,7 +38,9 @@ public:
         currentBoard.resize(N, vector<bool>(N,0));
         nextBoard.resize(N, vector<bool>(N,0));
 
-        srand48(time(0));
+//        srand48(time(0));
+
+        srand48(1);
 
         for ( int i = 0; i < N; i++){
             for (int j = 0; j < N; j++){
@@ -49,11 +51,12 @@ public:
 
     //Prints a filled square for every cell that is marked "alive" in the current turn.
     void printBoard() {
-        cout << string(20, '\n');
+        cout << string(N * 3, '_');
+        cout << endl;
 
         for ( int i = 0; i < N; i++){
             for (int j = 0; j < N; j++){
-                string s = "   ";
+                string s = " . ";
 
                 if ( currentBoard[i][j] )
                     s = " ■ ";
@@ -158,14 +161,14 @@ int main( int numargs, char *args[]) {
 
     starttime = gettime();
     life.generateBoard(size);
-//    life.printBoard();
+    life.printBoard();
 
 
     for ( int i = 0; i < rounds; i++ ) {
 //        sleep(1);
-        cout << i << endl;
+//        cout << i << endl;
         life.nextTurn();
-//        life.printBoard();
+        life.printBoard();
     }
 
     endtime = gettime();

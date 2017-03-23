@@ -42,9 +42,11 @@ public:
         currentBoard.resize(N, vector<bool>(N,0));
         nextBoard.resize(N, vector<bool>(N,0));
 
-        srand48(time(0));
+//        srand48(time(0));
 
-#    pragma omp parallel for
+        srand48(1);
+
+//#    pragma omp parallel for
         for ( int i = 0; i < N; i++){
             for (int j = 0; j < N; j++){
                 currentBoard[i][j] = (bool) (drand48() < chance );
@@ -54,11 +56,13 @@ public:
 
     //Prints a filled square for every cell that is marked "alive" in the current turn.
     void printBoard() {
-        cout << string(20, '\n');
+//        cout << string(10, '\n');
+        cout << string(N * 3, '_');
+        cout << endl;
 
         for ( int i = 0; i < N; i++){
             for (int j = 0; j < N; j++){
-                string s = "   ";
+                string s = " . ";
 
                 if ( currentBoard[i][j] )
                     s = " ■ ";
@@ -165,7 +169,7 @@ int main( int numargs, char *args[]) {
 
     starttime = gettime();
 
-//    life.printBoard();
+    life.printBoard();
 
 
     for ( int i = 0; i < rounds; i++ ) {
@@ -175,7 +179,7 @@ int main( int numargs, char *args[]) {
 
         life.nextTurn();
 
-//      life.printBoard();
+      life.printBoard();
 //      sleep(1);
     }
 
@@ -186,7 +190,7 @@ int main( int numargs, char *args[]) {
 
     cout << threads << " threads: " << size << " x " << size << " for " << rounds << " rounds took " << endtime - starttime << " seconds" << endl;
 
-    output << threads << " threads: " << size << " x " << size << " for " << rounds << " rounds took " << endtime - starttime << " seconds" << endl;
+//    output << threads << " threads: " << size << " x " << size << " for " << rounds << " rounds took " << endtime - starttime << " seconds" << endl;
 
     output.close();
 
