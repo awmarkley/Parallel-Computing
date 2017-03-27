@@ -1,3 +1,0 @@
-/Users/awmarkley/Library/Mobile Documents/com~apple~CloudDocs/Class/CS432 - Parallel Computing/Git/Assignment2/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/awmarkley/Library/Mobile Documents/com~apple~CloudDocs/Class/CS432 - Parallel Computing/Git/Assignment2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/Users/awmarkley/Library/Mobile Documents/com~apple~CloudDocs/Class/CS432 - Parallel Computing/Git/Assignment2/cmake-build-debug/CMakeFiles/Assignment2.dir

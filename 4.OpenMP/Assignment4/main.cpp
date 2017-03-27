@@ -122,6 +122,8 @@ public:
                     //Less than 2 neighbors or more than 3 neighbors, the cell dies
                     if ( count < 2 || count > 3)
                         set(i,j,0);
+                    else
+                        set(i,j,1);
                 }
                 //Cell is dead, becomes living if there are 3 neighbors
                 else if ( count == 3 )
