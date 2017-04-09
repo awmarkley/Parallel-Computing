@@ -2,7 +2,7 @@
 Name: Andrew W Markley
 BlazerId: amarkley
 Course Section: CS 432
-Homework #: 5
+Homework #: 6
 */
 
 #include <iostream>
@@ -12,6 +12,7 @@ Homework #: 5
 #include <fstream>
 #include <cmath>
 #include "mpi.h"
+#include "omp.h"
 
 using namespace std;
 
@@ -28,8 +29,12 @@ double gettime(void) {
 class GameOfLife {
 public:
     //Default constructor uses a 10x10 matrix
-    GameOfLife(int size) {
+    GameOfLife(int size, int _maxThreads) {
         generateBoard(size);
+        maxThreads = _maxThreads;
+        omp_set_num_threads(maxThreads);
+
+
     }
 
     //Generates a board of dimensions size x size and seeds the board with a random distribution of
@@ -144,48 +149,6 @@ public:
         return count;
     }
 
-    //Calculates the changes for the next turn of the board
-//    void nextTurn( bool *result ) {
-//        int my_id;
-//        MPI_Comm_rank(MPI_COMM_WORLD, &my_id);
-//
-//        pair<int,int> range = getBounds(my_id);
-//        bool my_result[ getChunk(my_id) * N ];
-//
-//        int my_position = 0;
-//
-//        for ( int i = range.first; i < range.second; i++) {
-//            for ( int j = 0; j < N; j++) {
-//
-//                int count = countNeighbors(i, j);
-//
-//                /////////////////////////////////////////////////////////////////////////////////
-//                //Determine if a cell lives or dies
-//                //Living cell behavior:
-//                if ( currentBoard[i*N+j] ) {
-//                    //Less than 2 neighbors or more than 3 neighbors, the cell dies
-//                    if ( count < 2 || count > 3)
-//                       my_result[ my_position++ ] = 0;     //set(i,j,0);
-//                    else
-//                        my_result[ my_position++] = 1;
-//                }
-//                    //Cell is dead, becomes living if there are 3 neighbors
-//                else if ( count == 3 )
-//                    my_result[ my_position++ ] = 1;     //(i,j,1);
-//                    //Otherwise, no change
-//                else
-//                    my_result[ my_position++ ] = 0;      //set(i,j,0);
-//                /////////////////////////////////////////////////////////////////////////////////
-//            }
-//        }
-//
-//        printBoard( my_result, N , sizeof(my_result)/sizeof(my_result[0]));
-//
-//        memcpy( result, my_result, sizeof(result));
-//
-//    }
-
-
     double run(int rounds) {
 
         //// Begin multithreading
@@ -204,7 +167,7 @@ public:
 
         if ( my_rank == 0 ) {
             my_board = currentBoard;
-//            printBoard();
+            printBoard();
         }
         else {
             my_board = new bool [N * N];
@@ -229,6 +192,8 @@ public:
             int my_position = 0;
 
             for ( int i = range.first; i < range.second; i++) {
+
+                #    pragma omp parallel for
                 for ( int j = 0; j < N; j++) {
 
                     int count = countNeighbors(i, j);
@@ -253,6 +218,7 @@ public:
                 }
             }
 
+//            MPI_Barrier( MPI_COMM_WORLD );
             MPI_Allgatherv( my_result, chunks[my_rank], MPI_CXX_BOOL,
                             my_board, chunks, displacement, MPI_CXX_BOOL, MPI_COMM_WORLD);
 
@@ -260,7 +226,7 @@ public:
 //            endTurn( nextBoard );
 
             if ( DEBUG && my_rank == 0 ) {
-//                printBoard();
+                printBoard();
             }
 
         }
@@ -274,14 +240,15 @@ public:
         MPI_Finalize();
 
         if ( my_rank == 0 ) {
-            cout << end - start << " seconds" << endl;
+//            cout << end - start << " seconds" << endl;
 
             ofstream output;
             output.open("output.log", ios::out | ios::app);
 
-            output << numThreads << " threads: " << N << " x " << N << " for " << rounds << " rounds took "
+            output << numThreads << " process and " << maxThreads << " threads: " << N << " x " << N << " for " << rounds << " rounds took "
                    << end - start << " seconds" << endl;
-
+            cout << numThreads << " process and " << maxThreads << " threads: " << N << " x " << N << " for " << rounds << " rounds took "
+                   << end - start << " seconds" << endl;
             output.close();
         }
 
@@ -293,23 +260,25 @@ public:
 private:
     bool *currentBoard;
     int N;
+    int maxThreads;
 
     //Sets the next board to be the current board
-    void endTurn( bool *next ) {
-        memcpy( currentBoard, next, sizeof(currentBoard)) ;
-    }
+//    void endTurn( bool *next ) {
+//        memcpy( currentBoard, next, sizeof(currentBoard)) ;
+//    }
 };
 
 
 int main( int numargs, char *args[]) {
 
-    int size, rounds;
+    int size, rounds, maxThreads;
 
 
     size = atoi( args[1] );
     rounds = atoi( args[2] );
+    maxThreads = atoi( args[3] );
 
-    GameOfLife life(size);
+    GameOfLife life(size, maxThreads);
 
     //Begin game
     life.run(rounds);
