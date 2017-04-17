@@ -152,7 +152,8 @@ public:
     double run(int rounds) {
 
         //// Begin multithreading
-        MPI_Init(NULL, NULL);
+        int result;
+        MPI_Init_thread(NULL, NULL, MPI_THREAD_SINGLE, &result);
 
         //// Begin setup
         double start = MPI_Wtime();
@@ -167,7 +168,7 @@ public:
 
         if ( my_rank == 0 ) {
             my_board = currentBoard;
-            printBoard();
+//            printBoard();
         }
         else {
             my_board = new bool [N * N];
@@ -180,7 +181,7 @@ public:
             displacement[i] = 0;
         }
 
-        bool *nextBoard = new bool [N * N];
+//        bool *nextBoard = new bool [N * N];
         bool *my_result = new bool [ chunks[my_rank] ];
 
         /////////////////////////////////////////////////////////////////////////////////
@@ -189,14 +190,20 @@ public:
 
             pair<int,int> range = getBounds(my_rank);
 
-            int my_position = 0;
+
 
             for ( int i = range.first; i < range.second; i++) {
 
-                #    pragma omp parallel for
+                #pragma omp parallel for num_threads(maxThreads)
                 for ( int j = 0; j < N; j++) {
 
                     int count = countNeighbors(i, j);
+                    int my_position = ( i - range.first ) * N + j;
+                    int tid = omp_get_thread_num();
+
+//                    cout << "(" << my_rank << ":" << tid << ") responsible for __" << my_position;
+//                    cout << "__ of rows " << range.first << " to " << range.second - 1;
+//                    cout << " of main board location " << i * N + j << endl;
 
                     /////////////////////////////////////////////////////////////////////////////////
                     //Determine if a cell lives or dies
@@ -204,16 +211,16 @@ public:
                     if ( currentBoard[i*N+j] ) {
                         //Less than 2 neighbors or more than 3 neighbors, the cell dies
                         if ( count < 2 || count > 3)
-                            my_result[ my_position++ ] = 0;     //set(i,j,0);
+                            my_result[ my_position ] = 0;     //set(i,j,0);
                         else
-                            my_result[ my_position++] = 1;
+                            my_result[ my_position] = 1;
                     }
                         //Cell is dead, becomes living if there are 3 neighbors
                     else if ( count == 3 )
-                        my_result[ my_position++ ] = 1;     //(i,j,1);
+                        my_result[ my_position ] = 1;     //(i,j,1);
                         //Otherwise, no change
                     else
-                        my_result[ my_position++ ] = 0;      //set(i,j,0);
+                        my_result[ my_position ] = 0;      //set(i,j,0);
                     /////////////////////////////////////////////////////////////////////////////////
                 }
             }
@@ -226,14 +233,14 @@ public:
 //            endTurn( nextBoard );
 
             if ( DEBUG && my_rank == 0 ) {
-                printBoard();
+//                printBoard();
             }
 
         }
         //// End running rounds
         /////////////////////////////////////////////////////////////////////////////////
 
-        delete[] nextBoard;
+//        delete[] nextBoard;
         delete[] my_result;
 
         double end = MPI_Wtime();
@@ -255,7 +262,6 @@ public:
         return end - start;
 
     }
-
 
 private:
     bool *currentBoard;
